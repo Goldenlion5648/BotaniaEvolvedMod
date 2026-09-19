@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "com.goldenlion5648.botania_evolved.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "client": [
+
+  ],
+  "mixins": [
+    "MixinFlowerDecay"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
