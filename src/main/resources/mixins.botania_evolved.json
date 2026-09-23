@@ -8,6 +8,7 @@
   "mixins": [
     "flowers.MixinFluidGeneratorBlock",
     "MixinFlowerDecay",
+    "MixinBotaniaFlowerBlocks",
     "flowers.MixinHydroangea"
   ],
   "injectors": {
