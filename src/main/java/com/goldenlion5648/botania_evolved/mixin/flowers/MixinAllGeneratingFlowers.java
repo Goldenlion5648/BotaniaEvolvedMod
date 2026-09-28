@@ -1,5 +1,6 @@
-package com.goldenlion5648.botania_evolved.mixin;
+package com.goldenlion5648.botania_evolved.mixin.flowers;
 
+import com.goldenlion5648.botania_evolved.helpers.BotaniaEvolvedTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Blocks;
@@ -14,14 +15,11 @@ import vazkii.botania.api.block_entity.GeneratingFlowerBlockEntity;
 import vazkii.botania.api.mana.ManaCollector;
 
 @Mixin(GeneratingFlowerBlockEntity.class)
-public abstract class MixinFlowerDecay extends BindableSpecialFlowerBlockEntity<ManaCollector> {
+public abstract class MixinAllGeneratingFlowers extends BindableSpecialFlowerBlockEntity<ManaCollector> {
 
     private int dieAfterXTicks = 60000;
-//    private int ticksLivedForDecay = 0;
-//    private static final String TAG_TICKS_LIVED_FOR_DECAY = "ticksLivedForDecay";
 
-
-    public MixinFlowerDecay(BlockEntityType<?> type, BlockPos pos, BlockState state, Class<ManaCollector> bindClass) {
+    public MixinAllGeneratingFlowers(BlockEntityType<?> type, BlockPos pos, BlockState state, Class<ManaCollector> bindClass) {
         super(type, pos, state, bindClass);
     }
 
@@ -46,4 +44,9 @@ public abstract class MixinFlowerDecay extends BindableSpecialFlowerBlockEntity<
             }
         }
     }
+
+    public boolean isBside() {
+        return level.getBlockState(getBlockPos().below()).is(BotaniaEvolvedTags.Blocks.B_SIDE_SOIL);
+    }
+
 }

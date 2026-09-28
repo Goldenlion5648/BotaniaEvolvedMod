@@ -21,7 +21,7 @@ import java.util.*;
 @Mixin(HydroangeasBlockEntity.class)
 public abstract class MixinHydroangea extends FluidGeneratorBlockEntity {
 
-    private boolean isBside = true;
+    private boolean isBside = false;
 
     private int currentOrderIndex = 0;
     private List<BlockPos> currentAdjOrder = new ArrayList<>();
@@ -30,6 +30,7 @@ public abstract class MixinHydroangea extends FluidGeneratorBlockEntity {
     private static final String TAG_CUR_ORDER_INDEX = "currentOrderIndex";
     private static final String TAG_CUR_ADJ_ORDER = "currentAdjOrder";
     private static final String TAG_STATE_MACHINE_STATE = "stateMachineState";
+    private static final String TAG_IS_BSIDE = "isBside";
 
     private final List<Integer> STREAK_OUTPUTS = List.of(
             2, 5, 12, 30, 80, 200, 500, 1200
@@ -166,16 +167,18 @@ public abstract class MixinHydroangea extends FluidGeneratorBlockEntity {
     public void writeToPacketNBT(CompoundTag cmp, CallbackInfo ci) {
         cmp.putInt(TAG_CUR_ORDER_INDEX, currentOrderIndex);
         cmp.putString(TAG_STATE_MACHINE_STATE, currentState.name());
+        cmp.putBoolean(TAG_IS_BSIDE, isBside);
         cmp.putLongArray(TAG_CUR_ADJ_ORDER, currentAdjOrder.stream().map(pos -> pos.asLong()).toList());
     }
 
     @Inject(method = "readFromPacketNBT", at = @At("RETURN"), remap = false)
     public void readFromPacketNBT(CompoundTag cmp, CallbackInfo ci) {
         currentState = HydroangeaBsideState.valueOf(cmp.getString(TAG_STATE_MACHINE_STATE));
+        isBside = cmp.getBoolean(TAG_IS_BSIDE);
         currentOrderIndex = cmp.getInt(TAG_CUR_ORDER_INDEX);
         var positionsAsLongsList = cmp.getLongArray(TAG_CUR_ADJ_ORDER);
         currentAdjOrder.clear();
-        for (int i = 0; i < offsetToComparatorSignal.size(); i++) {
+        for (int i = 0; i < positionsAsLongsList.length; i++) {
             currentAdjOrder.add(BlockPos.of(positionsAsLongsList[i]));
         }
     }

@@ -23,9 +23,9 @@ public class Config
             .comment("Whether to log the dirt block on common setup")
             .define("logDirtBlock", true);
 
-    private static final ForgeConfigSpec.IntValue MAGIC_NUMBER = BUILDER
-            .comment("A magic number")
-            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue ENDOFLAME_TICKS_BEFORE_DECAY = BUILDER
+            .comment("Ticks before the endoflame decays")
+            .defineInRange("ENDOFLAME_TICKS_BEFORE_DECAY", 80, 0, Integer.MAX_VALUE);
 
     public static final ForgeConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
             .comment("What you want the introduction message to be for the magic number")
@@ -34,7 +34,17 @@ public class Config
     // a list of strings that are treated as resource locations for items
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
             .comment("A list of items to log on common setup.")
-            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
+            .define("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
+//
+//    static {
+//        HashMap<String, Integer> defaultFlowerToTicks = new HashMap<>();
+//        for (var x : BuiltInRegistries.ITEM.getTagOrEmpty(BotaniaTags.Items.GENERATING_SPECIAL_FLOWERS)) {
+//            defaultFlowerToTicks.put(x.ge, 50);
+//        }
+//        final ForgeConfigSpec.ConfigValue<HashMap<String, Integer>> FLOWER_TO_TICKS = BUILDER
+//            .comment("Flower to ticks before decay.")
+//            .define("FLOWER_TO_TICKS", defaultFlowerToTicks);
+//    }
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
@@ -48,11 +58,15 @@ public class Config
         return obj instanceof final String itemName && ForgeRegistries.ITEMS.containsKey(new ResourceLocation(itemName));
     }
 
+//    private static boolean validateFlowerName(final Object obj)
+//    {
+//        return obj instanceof final String itemName && BotaniaTags.Items.GENERATING_SPECIAL_FLOWERS;
+//    }
+
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event)
     {
         logDirtBlock = LOG_DIRT_BLOCK.get();
-        magicNumber = MAGIC_NUMBER.get();
         magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
 
         // convert the list of strings into a set of items
