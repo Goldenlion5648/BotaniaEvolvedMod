@@ -7,13 +7,14 @@
   "client": [
   ],
   "mixins": [
-    "flowers.MixinFluidGeneratorBlock",
+    "flowers.FluidGeneratorBlockAccessor",
     "flowers.MixinGourmaryllis",
     "MixinAgglom",
     "vanilla.MixinBushBlock",
     "MixinBotaniaFlowerBlocks",
     "flowers.MixinAllGeneratingFlowers",
-    "flowers.MixinHydroangea"
+    "flowers.MixinHydroangea",
+    "flowers.MixinFluidGeneratorBlock"
   ],
   "injectors": {
     "defaultRequire": 1

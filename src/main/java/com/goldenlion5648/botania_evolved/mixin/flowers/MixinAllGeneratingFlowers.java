@@ -1,6 +1,8 @@
 package com.goldenlion5648.botania_evolved.mixin.flowers;
 
+import com.goldenlion5648.botania_evolved.api.IBSideFlower;
 import com.goldenlion5648.botania_evolved.helpers.BotaniaEvolvedTags;
+import com.goldenlion5648.botania_evolved.helpers.IGeneratingFlower;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.Blocks;
@@ -15,7 +17,7 @@ import vazkii.botania.api.block_entity.GeneratingFlowerBlockEntity;
 import vazkii.botania.api.mana.ManaCollector;
 
 @Mixin(GeneratingFlowerBlockEntity.class)
-public abstract class MixinAllGeneratingFlowers extends BindableSpecialFlowerBlockEntity<ManaCollector> {
+public abstract class MixinAllGeneratingFlowers extends BindableSpecialFlowerBlockEntity<ManaCollector> implements IBSideFlower, IGeneratingFlower {
 
     private int dieAfterXTicks = 60000;
 
@@ -33,7 +35,7 @@ public abstract class MixinAllGeneratingFlowers extends BindableSpecialFlowerBlo
         cmp.putInt(TAG_TICKS_EXISTED, ticksExisted);
     }
 
-    @Inject(method = "tickFlower", at = @At("HEAD"), remap = false)
+    @Inject(method = "tickFlower", at = @At("HEAD"), remap = false, cancellable = true)
     void checkDecay(CallbackInfo ci) {
         if (!getLevel().isClientSide) {
             if (ticksExisted > dieAfterXTicks) {
@@ -41,10 +43,29 @@ public abstract class MixinAllGeneratingFlowers extends BindableSpecialFlowerBlo
                 if (Blocks.DEAD_BUSH.defaultBlockState().canSurvive(getLevel(), getBlockPos())) {
                     getLevel().setBlockAndUpdate(getBlockPos(), Blocks.DEAD_BUSH.defaultBlockState());
                 }
+                ci.cancel();
             }
+        }
+
+        if (((IBSideFlower) (Object) this).isBside()) {
+            ci.cancel();
         }
     }
 
+    @Override
+    public boolean shouldGenerateMana() {
+        return true;
+    }
+
+    //
+//    @Inject(method = "tickFlower", at = @At("HEAD"), cancellable = true, remap = false)
+//    private void bSideCheckBeforeTick(CallbackInfo ci) {
+//        if (((IBSideFlower) (Object) this).isBside()) {
+//            ci.cancel();
+//        }
+//    }
+
+    @Override
     public boolean isBside() {
         return level.getBlockState(getBlockPos().below()).is(BotaniaEvolvedTags.Blocks.B_SIDE_SOIL);
     }

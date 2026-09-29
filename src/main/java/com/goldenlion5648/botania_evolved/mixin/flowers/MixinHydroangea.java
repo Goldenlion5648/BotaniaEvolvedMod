@@ -1,6 +1,7 @@
 package com.goldenlion5648.botania_evolved.mixin.flowers;
 
 import com.goldenlion5648.botania_evolved.helpers.HydroangeaBsideState;
+import com.goldenlion5648.botania_evolved.api.IBSideFlower;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.TagKey;
@@ -20,9 +21,6 @@ import java.util.*;
 
 @Mixin(HydroangeasBlockEntity.class)
 public abstract class MixinHydroangea extends FluidGeneratorBlockEntity {
-
-    private boolean isBside = false;
-
     private int currentOrderIndex = 0;
     private List<BlockPos> currentAdjOrder = new ArrayList<>();
     private HydroangeaBsideState currentState = HydroangeaBsideState.NEEDS_RESET;
@@ -69,18 +67,24 @@ public abstract class MixinHydroangea extends FluidGeneratorBlockEntity {
     boolean isWaterAtOffsetIndex(int indexToCheck) {
         BlockPos pos = getEffectivePos().offset(currentAdjOrder.get(indexToCheck));
         FluidState curFluidState = getLevel().getFluidState(pos);
-        TagKey<Fluid> fluidToEat = ((MixinFluidGeneratorBlock) this).getConsumedFluid();
+        TagKey<Fluid> fluidToEat = ((FluidGeneratorBlockAccessor) this).getConsumedFluid();
 
         return curFluidState.is(fluidToEat) && curFluidState.isSource();
     }
+
+    boolean checkIsBside() {
+        return ((IBSideFlower) this).isBside();
+    }
+
 
     @Inject(method = "tickFlower", at = @At(value = "HEAD"), cancellable = true, remap = false)
     private void customTickFlower(CallbackInfo ci) {
         // We cancel no matter what since the only hydroangea specific code that runs
         // is related to decay, which we do ourselves in the flower decay mixin.
-        ci.cancel();
-        if (!isBside) {
+        if (!checkIsBside()) {
             // Do normal hydroangea stuff
+            super.tickFlower();
+            ci.cancel();
             return;
         }
         burnTime = -1;
@@ -141,7 +145,7 @@ public abstract class MixinHydroangea extends FluidGeneratorBlockEntity {
 
     @Override
     public int getMaxMana() {
-        if (isBside) {
+        if (checkIsBside()) {
             return STREAK_OUTPUTS.get(STREAK_OUTPUTS.size() - 1);
         }
         return 150;
@@ -149,7 +153,7 @@ public abstract class MixinHydroangea extends FluidGeneratorBlockEntity {
 
     @Override
     public int getComparatorSignal() {
-        if (!isBside) {
+        if (!checkIsBside()) {
             return 0;
         }
 
@@ -167,19 +171,17 @@ public abstract class MixinHydroangea extends FluidGeneratorBlockEntity {
     public void writeToPacketNBT(CompoundTag cmp, CallbackInfo ci) {
         cmp.putInt(TAG_CUR_ORDER_INDEX, currentOrderIndex);
         cmp.putString(TAG_STATE_MACHINE_STATE, currentState.name());
-        cmp.putBoolean(TAG_IS_BSIDE, isBside);
         cmp.putLongArray(TAG_CUR_ADJ_ORDER, currentAdjOrder.stream().map(pos -> pos.asLong()).toList());
     }
 
     @Inject(method = "readFromPacketNBT", at = @At("RETURN"), remap = false)
     public void readFromPacketNBT(CompoundTag cmp, CallbackInfo ci) {
         currentState = HydroangeaBsideState.valueOf(cmp.getString(TAG_STATE_MACHINE_STATE));
-        isBside = cmp.getBoolean(TAG_IS_BSIDE);
         currentOrderIndex = cmp.getInt(TAG_CUR_ORDER_INDEX);
         var positionsAsLongsList = cmp.getLongArray(TAG_CUR_ADJ_ORDER);
         currentAdjOrder.clear();
-        for (int i = 0; i < positionsAsLongsList.length; i++) {
-            currentAdjOrder.add(BlockPos.of(positionsAsLongsList[i]));
+        for (long l : positionsAsLongsList) {
+            currentAdjOrder.add(BlockPos.of(l));
         }
     }
 }

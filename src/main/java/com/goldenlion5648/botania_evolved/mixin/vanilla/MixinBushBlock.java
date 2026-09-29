@@ -20,7 +20,7 @@ public abstract class MixinBushBlock extends Block implements net.minecraftforge
 
     @Overwrite
     protected boolean mayPlaceOn(BlockState pState, BlockGetter pLevel, BlockPos pPos) {
-        if (this.defaultBlockState().is(BotaniaTags.Blocks.GENERATING_SPECIAL_FLOWERS) && pState.is(BotaniaEvolvedTags.Blocks.B_SIDE_SOIL)) {
+        if (this.defaultBlockState().is(BotaniaTags.Blocks.GENERATING_SPECIAL_FLOWERS) && (pState.is(BotaniaEvolvedTags.Blocks.B_SIDE_SOIL))) {
             return true;
         }
         return pState.is(BlockTags.DIRT) || pState.is(net.minecraft.world.level.block.Blocks.FARMLAND);
