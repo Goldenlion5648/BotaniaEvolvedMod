@@ -46,10 +46,6 @@ public abstract class MixinAllGeneratingFlowers extends BindableSpecialFlowerBlo
                 ci.cancel();
             }
         }
-
-        if (((IBSideFlower) (Object) this).isBside()) {
-            ci.cancel();
-        }
     }
 
     @Override
