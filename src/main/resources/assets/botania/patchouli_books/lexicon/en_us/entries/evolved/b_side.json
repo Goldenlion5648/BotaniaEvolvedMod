@@ -1,0 +1,19 @@
+{
+    "name": "Anomaly: B-Side Flowers",
+    "category": "botania:evolved",
+    "icon": "minecraft:crimson_nylium",
+    "extra_recipe_mappings": {
+        "tag:botania_evolved:b_side_soil": 0
+    },
+    "sortnum": -10,
+    "pages": [
+        {
+            "type": "text",
+            "text": "During the decade of peace for the Botanist Flora, rumors spread of $(italics)B-Side/$ versions of generating flowers that would one day come. These were said to challenge what was known about the mechanics of some generating flowers."
+        },
+        {
+            "type": "text",
+            "text": "These B-Sides were similar to the known \"A-Side\" mechanics, but with added restrictions or more difficulty in automation. In exchange, more yield would be given in one way or another.$(br2)Only some flowers have been gifted with a B-Side, explained in other entries. The B-Side can be activated by planting on a $(bold)Nylium/$ variant."
+        }
+    ]
+}

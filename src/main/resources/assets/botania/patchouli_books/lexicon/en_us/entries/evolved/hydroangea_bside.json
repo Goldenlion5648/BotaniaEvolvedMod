@@ -1,0 +1,23 @@
+{
+    "name": "B-Side: Hydroangea",
+    "category": "botania:evolved",
+    "icon": "botania:hydroangeas",
+    "extra_recipe_mappings": {
+        "botania:hydroangeas": 0
+    },
+    "sortnum": -10,
+    "pages": [
+        {
+            "type": "text",
+            "text": "B-Side causes the Hydroangea to get fed up and turn the tables on you. Rather than give out mana from sucking up water, it will tell you which water blocks it wants $(bold)$(n)you/$ to remove.$(br2)Start by filling the 8 surrounding blocks around the B-Side Hydroangea with water."
+        },
+        {
+            "type": "text",
+            "text": "Once all 8 water blocks all are in place, the hydroangea will indicate through a comparator output signal the position of the block that it wants to be removed. ($(l:botania:ender/red_string)Red String$(/l) can help with this.) $(br2)A signal strength of 1 means the block on the north side should be removed, 2 means the north-east, 3 to the east, continuing clockwise up to signal strength 8 on the north-west block."
+        },
+        {
+            "type": "text",
+            "text": "Removing the wrong water block or replacing a water block that was already asked to be removed will cause the Hydroangea to want a reset back to all 8 water blocks.$(br)Each correctly removed block will generate more mana than the previous one."
+        }
+    ]
+}

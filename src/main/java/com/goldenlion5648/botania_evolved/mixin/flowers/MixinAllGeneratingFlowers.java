@@ -1,5 +1,6 @@
 package com.goldenlion5648.botania_evolved.mixin.flowers;
 
+import com.goldenlion5648.botania_evolved.Config;
 import com.goldenlion5648.botania_evolved.api.IBSideFlower;
 import com.goldenlion5648.botania_evolved.helpers.BotaniaEvolvedTags;
 import com.goldenlion5648.botania_evolved.helpers.IGeneratingFlower;
@@ -19,8 +20,6 @@ import vazkii.botania.api.mana.ManaCollector;
 @Mixin(GeneratingFlowerBlockEntity.class)
 public abstract class MixinAllGeneratingFlowers extends BindableSpecialFlowerBlockEntity<ManaCollector> implements IBSideFlower, IGeneratingFlower {
 
-    private int dieAfterXTicks = 60000;
-
     public MixinAllGeneratingFlowers(BlockEntityType<?> type, BlockPos pos, BlockState state, Class<ManaCollector> bindClass) {
         super(type, pos, state, bindClass);
     }
@@ -38,7 +37,7 @@ public abstract class MixinAllGeneratingFlowers extends BindableSpecialFlowerBlo
     @Inject(method = "tickFlower", at = @At("HEAD"), remap = false, cancellable = true)
     void checkDecay(CallbackInfo ci) {
         if (!getLevel().isClientSide) {
-            if (ticksExisted > dieAfterXTicks) {
+            if (Config.ticksBeforeDecayValue != -1 && ticksExisted > Config.ticksBeforeDecayValue) {
                 getLevel().destroyBlock(getBlockPos(), false);
                 if (Blocks.DEAD_BUSH.defaultBlockState().canSurvive(getLevel(), getBlockPos())) {
                     getLevel().setBlockAndUpdate(getBlockPos(), Blocks.DEAD_BUSH.defaultBlockState());

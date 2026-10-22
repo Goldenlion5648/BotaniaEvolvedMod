@@ -9,7 +9,6 @@
   "mixins": [
     "flowers.FluidGeneratorBlockAccessor",
     "flowers.MixinGourmaryllis",
-    "MixinAgglom",
     "vanilla.MixinBushBlock",
     "MixinBotaniaFlowerBlocks",
     "flowers.MixinAllGeneratingFlowers",

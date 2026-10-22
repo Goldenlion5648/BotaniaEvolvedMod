@@ -1,0 +1,13 @@
+{
+    "name": "The Event",
+    "category": "botania:evolved",
+    "icon": "botania:twig_wand",
+    "priority": true,
+    "sortnum": -100,
+    "pages": [
+        {
+            "type": "text",
+            "text": "After a decade of peace, no notable flowers had joined the Botanist Flora. Then, one day, a space time super nova struck the realm of Botanists! Many anomalies that have resulted from the super nova have been documented in other entries. $(br2)$(bold)Bonus:/$ See if you can automate all the challenges brought by the super nova!"
+        }
+    ]
+}

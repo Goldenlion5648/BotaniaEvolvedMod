@@ -1,0 +1,16 @@
+{
+    "name": "Decay Disease",
+    "category": "botania:evolved",
+    "icon": "botania:daybloom_motif",
+    "sortnum": -10,
+    "pages": [
+        {
+            "type": "text",
+            "text": "Botanists speak of a time when mana was freely available from sunlight and moonlight. While many enjoyed free mana, it was deemed to be rather boring and discouraged use of more interesting generating flowers. A decision was made by higher ups that these \"free mana\" flowers would decay after some time. They were later banished entirely from Botany."
+        },
+        {
+            "type": "text",
+            "text": "It appears that the timeline has been altered by the super nova. Now, all generating flowers decay after one hour $(italics)IRL time/$. $(br2) Looks like another challenge to automate."
+        }
+    ]
+}

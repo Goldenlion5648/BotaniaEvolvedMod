@@ -1,0 +1,22 @@
+{
+    "name": "B-Side: Gourmaryllis",
+    "category": "botania:evolved",
+    "icon": "botania:gourmaryllis",
+    "extra_recipe_mappings": {
+        "botania:gourmaryllis": 0
+    },
+    "sortnum": -10,
+    "pages": [
+        {
+            "type": "text",
+            "text": "B-Side causes the Gourmaryllis to develop a gambling addiction. So much so that it won't eat anything besides $(item)Suspicious Stew/$.$(br2)The same rule applies as normal, where eating a stew with the same effect and time as the previously eaten one will give diminishing returns. Longer streaks of variety give more mana."
+        },
+        {
+            "type": "patchouli:spotlight",
+            "item": {
+                "item": "minecraft:suspicious_stew"
+            },
+            "text": "The longer the effect of the stew, the more mana that will be generated, up to a certain point.$(br2)Many new stew recipes are available using various flowers."
+        }
+    ]
+}
