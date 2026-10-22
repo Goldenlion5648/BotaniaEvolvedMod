@@ -8,6 +8,6 @@ import vazkii.botania.common.block.flower.generating.FluidGeneratorBlockEntity;
 
 @Mixin(FluidGeneratorBlockEntity.class)
 public interface FluidGeneratorBlockAccessor {
-    @Accessor("consumedFluid")
+    @Accessor(value = "consumedFluid", remap = false)
     TagKey<Fluid> getConsumedFluid();
 }

@@ -40,7 +40,7 @@ public abstract class MixinBotaniaFlowerBlocks {
         );
     }
 
-    @Invoker("createSpecialFlowerBlock")
+    @Invoker(value = "createSpecialFlowerBlock", remap = false)
     protected static FlowerBlock invokeCreateSpecialFlowerBlock(
             MobEffect effect,
             int effectDuration,
